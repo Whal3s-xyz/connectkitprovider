@@ -8,7 +8,7 @@ class ConnectKitProvider extends EventTarget implements WalletProviderInterface 
     public _address: string | undefined;
 
     constructor(account: GetAccountResult) {
-        super();
+        super()
         this.account = account;
         this._initializeAccount()
 
