@@ -1,0 +1,97 @@
+import {WalletProviderInterface} from "@whal3s/whal3s.js";
+
+import {GetAccountResult, signMessage} from "@wagmi/core";
+import {Network} from "@whal3s/whal3s.js/build/types/types";
+
+class ConnectKitProvider extends EventTarget implements WalletProviderInterface {
+
+
+    public account: GetAccountResult;
+    public _address: string | undefined;
+
+    constructor(account: GetAccountResult) {
+        super();
+        this.account = account;
+        this._initializeAccount()
+
+    }
+
+    _handlePossibleAddressChanged() {
+        if (this.account.address !== this._address) {
+            this.dispatchEvent(new Event("addressChanged"))
+            this._address = this.account.address
+        }
+    }
+    _initializeAccount() {
+        this.account.connector?.on("disconnect", () => {
+            console.log('disconnect')
+            this._handlePossibleAddressChanged()
+        })
+        this.account.connector?.on("connect", () => {
+            console.log('connect')
+            this._handlePossibleAddressChanged()
+        })
+        this.account.connector?.on("change", () => {
+            console.log('change')
+            this._handlePossibleAddressChanged()
+        })
+
+        this._handlePossibleAddressChanged()
+    }
+
+    setAccount(account: GetAccountResult) {
+        this.account.connector?.removeAllListeners()
+        this.account = account;
+        this._initializeAccount()
+
+    }
+
+    get address(): string | undefined {
+        return this.account.address;
+    }
+
+
+    async getAddress(): Promise<string | undefined> {
+        return Promise.resolve(this.account.address)
+    }
+
+    connect(network: Network): Promise<boolean> {
+        console.log(network)
+        return Promise.resolve(false);
+    }
+
+    async onSameNetwork(network: Network): Promise<boolean> {
+        if (!this.account?.connector?.getChainId) {
+            throw("No connector available")
+        }
+        const currentChainId = await this.account.connector?.getChainId()
+        return Promise.resolve(currentChainId === network.id)
+    }
+
+    async signMessage(message: string): Promise<string> {
+
+        if (!this.account?.connector) {
+            console.log(this.account)
+            console.log(this.account?.connector)
+            throw("No connector available")
+        }
+
+        return signMessage({message})
+
+        // const signer = await this.account.connector.getSigner()
+        // return signer.signMessage(message)
+
+    }
+
+
+    async switchNetwork(network: Network): Promise<boolean> {
+        if (!this.account?.connector?.switchChain)
+            return Promise.resolve(false)
+        const switchedChain = await this.account?.connector?.switchChain(network.id)
+        return Promise.resolve(switchedChain?.id === network.id)
+    }
+
+
+}
+
+export default ConnectKitProvider
