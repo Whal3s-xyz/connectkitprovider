@@ -1,1 +1,1 @@
-export default "./provider/ConnectKitProvider";
+export * from './provider';

@@ -1,11 +1,9 @@
 import {WalletProviderInterface} from "@whal3s/whal3s.js";
 
-import {GetAccountResult, signMessage} from "@wagmi/core";
+import {GetAccountResult, signMessage, watchAccount} from "@wagmi/core";
 import {Network} from "@whal3s/whal3s.js/build/types/types";
 
 class ConnectKitProvider extends EventTarget implements WalletProviderInterface {
-
-
     public account: GetAccountResult;
     public _address: string | undefined;
 
@@ -23,16 +21,8 @@ class ConnectKitProvider extends EventTarget implements WalletProviderInterface 
         }
     }
     _initializeAccount() {
-        this.account.connector?.on("disconnect", () => {
-            console.log('disconnect')
-            this._handlePossibleAddressChanged()
-        })
-        this.account.connector?.on("connect", () => {
-            console.log('connect')
-            this._handlePossibleAddressChanged()
-        })
-        this.account.connector?.on("change", () => {
-            console.log('change')
+        const unwatch = watchAccount((account) => {
+            this.account = account
             this._handlePossibleAddressChanged()
         })
 
@@ -40,7 +30,6 @@ class ConnectKitProvider extends EventTarget implements WalletProviderInterface 
     }
 
     setAccount(account: GetAccountResult) {
-        this.account.connector?.removeAllListeners()
         this.account = account;
         this._initializeAccount()
 

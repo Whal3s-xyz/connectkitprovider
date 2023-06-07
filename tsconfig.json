@@ -1,56 +1,32 @@
 {
-  "compilerOptions": {
-//    "outDir": "./build",
-    "sourceMap": true,
-    "noImplicitAny": true,
-//    "esModuleInterop": true,
-//    "module": "commonjs",
-//    "target": "es6",
-    "allowJs": true,
-//    "moduleResolution": "node",
-//    "lib": ["es6", "dom"],
-//    "declaration": true,
-
-
-    "target": "es2018",                 // Target ECMAScript version
-    "module": "es2015",                 // Output module format
-    "lib": ["es2018", "dom"],           // Available libraries
-    "declaration": true,                // Generate declaration files (*.d.ts)
-    "outDir": "dist",                   // Output directory for compiled files
-    "strict": true,                     // Enable strict type checking
-    "esModuleInterop": true,            // Enable interoperability between CommonJS and ES modules
-    "resolveJsonModule": true,          // Allow importing JSON files
-    "moduleResolution": "node",         // Module resolution strategy
-    "baseUrl": ".",                     // Base URL for module resolution
-    "paths": {
-      "*": ["types/*"]                  // Path mapping for importing custom typings
-    }
-  },
-  "include": ["./src/**/*"],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
-}
-//{
-//  "compilerOptions": {
-//    "target": "es2018",                 // Target ECMAScript version
-//    "module": "es2015",                 // Output module format
-//    "lib": ["es2018", "dom"],           // Available libraries
-//    "declaration": true,                // Generate declaration files (*.d.ts)
-//    "outDir": "dist",                   // Output directory for compiled files
-//    "strict": true,                     // Enable strict type checking
-//    "esModuleInterop": true,            // Enable interoperability between CommonJS and ES modules
-//    "resolveJsonModule": true,          // Allow importing JSON files
-//    "moduleResolution": "node",         // Module resolution strategy
-//    "baseUrl": ".",                     // Base URL for module resolution
-//    "paths": {
-//      "*": ["types/*"]                  // Path mapping for importing custom typings
-//    }
-//  },
-//  "exclude": [
-//    "node_modules",
-//    "dist"
-//  ]
-//}
-
+    "compilerOptions": {
+      "target": "es5",
+      "outDir": "lib",
+      "lib": [
+        "dom",
+        "dom.iterable",
+        "esnext"
+      ],
+      "declaration": true,
+      "declarationDir": "lib",
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "jsx": "react"
+    },
+    "include": [
+      "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "lib"
+    ]
+  }
