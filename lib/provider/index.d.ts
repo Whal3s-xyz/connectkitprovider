@@ -1,1 +1,1 @@
-export { default } from "./ConnectKitProvider";
+export { default as ConnectKitProvider } from "./ConnectKitProvider";
