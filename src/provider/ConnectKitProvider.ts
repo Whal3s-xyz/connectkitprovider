@@ -21,11 +21,6 @@ class ConnectKitProvider extends EventTarget implements WalletProviderInterface 
         }
     }
     _initializeAccount() {
-        const unwatch = watchAccount((account) => {
-            this.account = account
-            this._handlePossibleAddressChanged()
-        })
-
         this._handlePossibleAddressChanged()
     }
 
