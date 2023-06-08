@@ -1,6 +1,6 @@
 import {WalletProviderInterface} from "@whal3s/whal3s.js";
 
-import {GetAccountResult, signMessage, watchAccount} from "@wagmi/core";
+import {GetAccountResult} from "@wagmi/core";
 import {Network} from "@whal3s/whal3s.js/build/types/types";
 
 class ConnectKitProvider extends EventTarget implements WalletProviderInterface {
@@ -60,10 +60,17 @@ class ConnectKitProvider extends EventTarget implements WalletProviderInterface 
             throw("No connector available")
         }
 
-        return signMessage({message})
+        // return signMessage({message})
+        const walletClient = await this.account.connector?.getWalletClient()
+        if (!walletClient) {
+            return Promise.reject("No wallet client available")
+        }
+        console.log(walletClient)
+        return walletClient.signMessage({
+            message: message,
+        })
 
-        // const signer = await this.account.connector.getSigner()
-        // return signer.signMessage(message)
+
 
     }
 
